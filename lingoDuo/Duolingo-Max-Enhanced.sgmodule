@@ -1,0 +1,15 @@
+#!name=Duolingo Max 解锁 增强版
+#!desc=解锁 Duolingo Max 会员（无限体力、去广告、视频通话等），另可开经验加倍、解锁所有关卡、自定义限时挑战时长。脚本原作 TAKAGIVEGETA，参数读取已适配 Surge。
+#!author=Takagivegeta（Surge 适配：Jun）
+#!homepage=https://github.com/TAKAGIVEGETA/MyScripts/tree/main/lingoDuo
+#!icon=https://raw.githubusercontent.com/TAKAGIVEGETA/MyScripts/main/lingoDuo/lingoDuo.png
+#!arguments=xp_boost:false,multiplier:2,unlock_all:false,timer_mins:0
+#!arguments-desc=xp_boost：经验加倍开关（true 开 / false 关）；multiplier：经验倍数（2 或 3）；unlock_all：解锁所有关卡开关（true/false）；timer_mins：限时挑战时长（分钟，0 = 关闭）。直接通关默认关闭：编辑本模块，删掉「直接通关」脚本行行首的 # 号即可启用。注意：不要与基础版 Duolingo Max 模块同时启用。
+
+[Script]
+Duolingo Max解锁增强 = type=http-response,pattern=^https?:\/\/(ios-api-[a-z0-9-]+|api\d+)\.duolingo\.c(n|om)\/2023-05-23\/(batch|users\/[^\/?#]+)(?:[?#]|$),script-path=https://raw.githubusercontent.com/cieljun0522/surge-modules/main/lingoDuo/lingoDuo-xaM-enhanced-surge.js,requires-body=true,max-size=31457280,timeout=120,argument="xp_boost={{{xp_boost}}}|multiplier={{{multiplier}}}|unlock_all={{{unlock_all}}}"
+Duolingo 限时挑战时长 = type=http-response,pattern=^https?:\/\/(?:ios-api-[a-z0-9-]+|api\d+)\.duolingo\.c(?:n|om)\/.*\/live-ops-challenges,script-path=https://raw.githubusercontent.com/cieljun0522/surge-modules/main/lingoDuo/lingoDuo-time-modifier-surge.js,requires-body=true,max-size=31457280,timeout=120,argument="timer_mins={{{timer_mins}}}"
+#Duolingo 直接通关 = type=http-response,pattern=^https?:\/\/(?:ios-api-[a-z0-9-]+|api\d+|stories)\.duolingo\.c(?:n|om)\/(?:.*\/sessions|api2\/stories),script-path=https://raw.githubusercontent.com/cieljun0522/surge-modules/main/lingoDuo/lingoDuo-clear-surge.js,requires-body=true,max-size=31457280,timeout=120
+
+[MITM]
+hostname = %APPEND% ios-api-*.duolingo.com, ios-api-*.duolingo.cn, api*.duolingo.com, api*.duolingo.cn, stories.duolingo.com, stories.duolingo.cn
